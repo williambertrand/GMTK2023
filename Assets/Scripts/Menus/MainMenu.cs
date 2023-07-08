@@ -18,6 +18,8 @@ public class MainMenu : MonoBehaviour
 
     [SerializeField] private ParticleSystem _bubbles;
 
+    [SerializeField] private GameObject _fish;
+
     private bool _bubblesOn;
     private float _bubbleSpeed;
 
@@ -45,6 +47,7 @@ public class MainMenu : MonoBehaviour
             _bubbleSpeed += 1.5f * Time.deltaTime;
             var main = _bubbles.main;
             main.startSpeed = _bubbleSpeed;
+            _fish.transform.Translate(new Vector3(_bubbleSpeed * 0.25f * Time.deltaTime * -1, 0.0f, 0.0f));
         }
     }
 
