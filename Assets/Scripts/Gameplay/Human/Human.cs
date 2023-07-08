@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public delegate void OnHumanCaught(Human h);
 
@@ -113,6 +114,8 @@ public class Human : MonoBehaviour
         _onHookedPos = transform.position;
         currentState = HumanState.ON_THE_LINE;
         _anim.SetTrigger("seeBait");
+        SceneManager.LoadScene("Fishing", LoadSceneMode.Additive);
+        // TODO: Handle coming back w/ result
     }
 
     private void OnCaught()
