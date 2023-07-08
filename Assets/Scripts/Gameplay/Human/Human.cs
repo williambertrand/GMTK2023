@@ -71,15 +71,19 @@ public class Human : MonoBehaviour
     public void OnReel()
     {
         _currentCaptureCount += 1;
+
+        if (_currentCaptureCount >= _requiredCaptureCount)
+        {
+            currentState = HumanState.CAUGHT;
+        }
     }
     private void HandleOnTheLine()
     {
-
         float step = _speedOnHook * Time.deltaTime;
 
         // Get current "perent" the player has reeled in the Human
-        float percentCaptured = _currentCaptureCount / _requiredCaptureCount;
-        Vector3 hookPos = (transform.position - PlayerController.Instance.transform.position).normalized * percentCaptured;
+        float percentRemaing = 1 - (_currentCaptureCount / _requiredCaptureCount);
+        Vector3 hookPos = PlayerController.Instance.transform.position + (transform.position - PlayerController.Instance.transform.position).normalized * percentRemaing;
 
         transform.position = Vector3.MoveTowards(hookPos, _targetPos, step);
     }
@@ -87,17 +91,19 @@ public class Human : MonoBehaviour
 
     private void OnHooked()
     {
-
+        currentState = HumanState.ON_THE_LINE;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Bait"))
+        bool isBait = true; //other.CompareTag("Bait")
+        if (isBait)
         {
             Bait b = other.GetComponent<Bait>();
             if(b.baitType == preferredBait)
             {
                 OnHooked();
+                PlayerController.Instance.OnHumanHooked(this);
             }
             else
             {
