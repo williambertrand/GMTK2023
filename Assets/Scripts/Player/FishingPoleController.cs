@@ -22,6 +22,7 @@ public class FishingPoleController : MonoBehaviour
 
     [Header("Bait physics")]
     public float baitMass = 0.05f;
+    public float baitInitialAngle = -45f;
     private Vector3 force;
 
     [Header("Path projection")]
@@ -41,33 +42,27 @@ public class FishingPoleController : MonoBehaviour
     }
 
     // Update is called once per frame
+
+    private void UpdateCastForce()
+    {
+        this.force = (Quaternion.AngleAxis(-45, transform.right) * transform.forward) * this.CurrentCharge;
+    }
     void Update()
     {
+        if(this.fishingPoleState != FihsingPoleState.Release){
+            this.CurrentCharge = Mathf.Clamp(this.CurrentCharge + this.chargeRate * Time.deltaTime * (int) this.fishingPoleState, 0f, this.maxCharge);
 
-        if (this.fishingPoleState == FihsingPoleState.IncreasingThrowCharge)
-        {
-            this.CurrentCharge += this.chargeRate * Time.deltaTime;
-
-            if (this.CurrentCharge >= this.maxCharge)
+            if (this.CurrentCharge == this.maxCharge)
             {
-                this.CurrentCharge = this.maxCharge;
-                this.fishingPoleState = FihsingPoleState.DecreasingThrowCharg;
+                this.fishingPoleState = FihsingPoleState.DecreasingThrowCharge;
             }
-
-            this.DrawPath();
-        }
-
-        else if (this.fishingPoleState == FihsingPoleState.DecreasingThrowCharg)
-        {
-            this.CurrentCharge -= this.chargeRate * Time.deltaTime;
-
-            if (this.CurrentCharge <= 0f)
-            {
-                this.CurrentCharge = 0f;
+            else if(this.CurrentCharge == 0f){
                 this.fishingPoleState = FihsingPoleState.IncreasingThrowCharge;
             }
 
-            this.DrawPath();
+            this.force = (Quaternion.AngleAxis(this.baitInitialAngle,transform.right) * transform.forward) * this.CurrentCharge;
+            
+            this.lineRender.enabled = true;
         }
 
 
@@ -75,6 +70,11 @@ public class FishingPoleController : MonoBehaviour
         {
             this.CastBait();
         }
+    }
+
+    void LateUpdate()
+    {
+        this.DrawPath();
     }
 
     private void CastBait()
@@ -89,6 +89,8 @@ public class FishingPoleController : MonoBehaviour
         this.CurrentCharge = 0f;
         this.fishingPoleState = FihsingPoleState.Release;
         this.lineRender.enabled = false;
+
+        this.force = Vector3.zero;
     }
 
 
@@ -107,13 +109,10 @@ public class FishingPoleController : MonoBehaviour
 
     private void DrawPath()
     {
-        this.lineRender.enabled = true;
-        this.lineRender.positionCount = Mathf.CeilToInt(this.numberOfPoints / this.timeBetweenPoints) + 1;
-        
-        //fuck quaternions, just add two vector to get the 45 angle and normalized it
-        this.force = (Quaternion.AngleAxis(-45,transform.right) * transform.forward) * this.CurrentCharge;
+        this.lineRender.positionCount = Mathf.CeilToInt(this.numberOfPoints / this.timeBetweenPoints) + 2;
+
         Vector3 velocity = this.force / this.baitMass;
-        
+
         int i = 0;
         this.lineRender.SetPosition(i, this.baitInitialPosition.position);
         for (float time = 0; time < this.numberOfPoints; time += this.timeBetweenPoints)
@@ -121,7 +120,7 @@ public class FishingPoleController : MonoBehaviour
             i++;
             Vector3 newPoint = this.baitInitialPosition.transform.position + time * velocity;
             newPoint.y = this.baitInitialPosition.transform.position.y + velocity.y * time + (Physics.gravity.y / 2f * time * time);
-
+            print(i);
             this.lineRender.SetPosition(i, newPoint);
         }
     }
@@ -129,9 +128,8 @@ public class FishingPoleController : MonoBehaviour
 
 public enum FihsingPoleState
 {
-    None = 0,
-    IncreasingThrowCharge, 
-    DecreasingThrowCharg,
-    Release
+    IncreasingThrowCharge = 1,
+    DecreasingThrowCharge = -1,
+    Release = 0
 }
 
