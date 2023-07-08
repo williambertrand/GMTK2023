@@ -120,7 +120,6 @@ public class FishingPoleController : MonoBehaviour
             i++;
             Vector3 newPoint = this.baitInitialPosition.transform.position + time * velocity;
             newPoint.y = this.baitInitialPosition.transform.position.y + velocity.y * time + (Physics.gravity.y / 2f * time * time);
-            print(i);
             this.lineRender.SetPosition(i, newPoint);
         }
     }

@@ -90,6 +90,11 @@ public class PlayerController : MonoBehaviour
         onReel += h.OnReel;
     }
 
+    public void OnHumanCaught(Human h)
+    {
+        onReel -= h.OnReel;
+    }
+
     public void OnReelInput(InputAction.CallbackContext context)
     {
         if (!context.started) return;

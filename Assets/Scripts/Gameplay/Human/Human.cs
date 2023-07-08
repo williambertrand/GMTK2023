@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void OnHumanCaught(Human h);
+
 public class Human : MonoBehaviour
 {
     private enum HumanState
@@ -21,8 +23,14 @@ public class Human : MonoBehaviour
     private const float TRAVEL_DIST = 80.0f;
 
     private int _currentCaptureCount;
-    [SerializeField] private int _requiredCaptureCount;
+    public int RequiredCaptureCount;
     [SerializeField] private float _speedOnHook;
+
+    public int scoreValue = 1;
+    private Vector3 _onHookedPos;
+    public OnHumanCaught onCaught;
+
+    private Animator _anim;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +42,8 @@ public class Human : MonoBehaviour
             transform.position.y,
             transform.position.z - TRAVEL_DIST
         );
+
+        _anim = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -72,26 +82,45 @@ public class Human : MonoBehaviour
     {
         _currentCaptureCount += 1;
 
-        if (_currentCaptureCount >= _requiredCaptureCount)
+        if (_currentCaptureCount >= RequiredCaptureCount)
         {
-            currentState = HumanState.CAUGHT;
+            OnCaught();
         }
     }
     private void HandleOnTheLine()
     {
-        float step = _speedOnHook * Time.deltaTime;
-
         // Get current "perent" the player has reeled in the Human
-        float percentRemaing = 1 - (_currentCaptureCount / _requiredCaptureCount);
-        Vector3 hookPos = PlayerController.Instance.transform.position + (transform.position - PlayerController.Instance.transform.position).normalized * percentRemaing;
+        float percentRemaining = 1 - ((float)_currentCaptureCount / RequiredCaptureCount);
 
-        transform.position = Vector3.MoveTowards(hookPos, _targetPos, step);
+        float originalDistance = Vector3.Distance(_onHookedPos, PlayerController.Instance.transform.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, PlayerController.Instance.transform.position);
+
+        float step;
+        if(distanceToPlayer > percentRemaining * originalDistance)
+        {
+            step = _speedOnHook * Time.deltaTime;
+        } else
+        {
+            step = 0;
+        }
+
+        transform.position = Vector3.MoveTowards(transform.position, PlayerController.Instance.transform.position, step);
     }
 
 
     private void OnHooked()
     {
+        _onHookedPos = transform.position;
         currentState = HumanState.ON_THE_LINE;
+        _anim.SetTrigger("seeBait");
+    }
+
+    private void OnCaught()
+    {
+        currentState = HumanState.CAUGHT;
+        onCaught?.Invoke(this);
+        PlayerController.Instance.OnHumanCaught(this);
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -104,6 +133,7 @@ public class Human : MonoBehaviour
             {
                 OnHooked();
                 PlayerController.Instance.OnHumanHooked(this);
+                Destroy(other.gameObject);
             }
             else
             {
