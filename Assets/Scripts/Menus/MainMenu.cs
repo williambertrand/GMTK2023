@@ -16,6 +16,11 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private MenuRole role;
     [SerializeField] private TMP_Text scoreText;
 
+    [SerializeField] private ParticleSystem _bubbles;
+
+    private bool _bubblesOn;
+    private float _bubbleSpeed;
+
     private bool _musicStarted;
 
     void Start()
@@ -26,19 +31,36 @@ public class MainMenu : MonoBehaviour
         }
         else if (role == MenuRole.MAIN)
         {
+            _bubbleSpeed = 20.0f;
             StartCoroutine(PlayMainMenuMusic());
+            _bubbles.gameObject.SetActive(false);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(_bubblesOn)
+        {
+            _bubbleSpeed += 1.5f * Time.deltaTime;
+            var main = _bubbles.main;
+            main.startSpeed = _bubbleSpeed;
+        }
     }
 
     public void OnStartPress()
     {
         GameStats.score = 0;
         AudioManager.Instance.PlayOneShot(AudioEvent.START_GAME);
+
+        _bubbles.gameObject.SetActive(true);
+        _bubblesOn = true;
+        StartCoroutine(LoadSceneWithTransition());
+    }
+
+    private IEnumerator LoadSceneWithTransition()
+    {
+        yield return new WaitForSeconds(2.5f);
         SceneManager.LoadScene("HumanTesting");
     }
 
