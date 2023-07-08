@@ -15,9 +15,12 @@ public class HumanSpawner : MonoBehaviour
 
     [SerializeField] private BoxCollider _spawnBounds;
 
+    GamePlayManager _gameplayManager;
+
     void Start()
     {
         isActive = true;
+        _gameplayManager = FindObjectOfType<GamePlayManager>();
     }
 
     // Update is called once per frame
@@ -40,7 +43,19 @@ public class HumanSpawner : MonoBehaviour
         Human h = Instantiate(toSpawn, position, Quaternion.identity);
 
         h.preferredBait = Bait.GetRandomBait();
+        
+        // TODO: TESTING - remove
+        h.preferredBait = BaitType.HAMBURGER;
+        
+       
+        h.RequiredCaptureCount = Random.Range(8, 15);
+
         h.speed = GetCurrentHumanSpeed();
+        if (_gameplayManager != null)
+        {
+            h.onCaught += _gameplayManager.OnHumanCaught;
+        }
+        
     }
 
     private float GetCurrentHumanSpeed()
@@ -55,7 +70,7 @@ public class HumanSpawner : MonoBehaviour
     {
         return new Vector3(
             Random.Range(_spawnBounds.bounds.min.x, _spawnBounds.bounds.max.x),
-            1.5f,
+            2.5f,
             Random.Range(_spawnBounds.bounds.min.z, _spawnBounds.bounds.max.z)
         );
     }
