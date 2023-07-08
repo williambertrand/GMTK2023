@@ -40,14 +40,13 @@ public class GamePlayManager : MonoBehaviour
             GameStats.score = currentScore;
             StartCoroutine(TransitionToScoreScreen());
         }
-       
     }
 
     public void OnHumanCaught(Human h)
     {
         // TODO: Just counting right now, but if we want to do points we can update that here
         currentScore += h.scoreValue;
-        scoreText.text = string.Format("{0} Humans Caught", currentScore);
+        scoreText.text = string.Format("{0}", currentScore);
     }
 
     private IEnumerator TransitionToScoreScreen()
