@@ -35,7 +35,7 @@
                 {
                     "name": "Reel",
                     "type": "Button",
-                    "id": "f81b3ba8-07e0-47b8-be68-74cf9ce089eb",
+                    "id": "a72086ff-7c18-4c0c-858e-dd73677c1734",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -265,8 +265,19 @@
                 },
                 {
                     "name": "",
-                    "id": "cd79a641-8a7b-4f35-821b-0f920265788b",
-                    "path": "<Keyboard>/space",
+                    "id": "71e6b00d-6039-40c1-818f-2a5a35689d78",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Reel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4026d6ff-ff69-447b-975e-68bb810b1555",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -787,6 +798,94 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedDeviceOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Minigame",
+            "id": "36d3095d-48e0-4e1d-a04d-21549142c0d7",
+            "actions": [
+                {
+                    "name": "Left Arrow",
+                    "type": "Button",
+                    "id": "ad06d290-91ae-419f-b396-03d103ec270d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Down Arrow",
+                    "type": "Button",
+                    "id": "4aa85aa7-06d0-4717-b9ec-1f9be08b5954",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Up Arrow",
+                    "type": "Button",
+                    "id": "2f72b988-b7ca-498d-b06f-cd65f83199f9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Right Arrow",
+                    "type": "Button",
+                    "id": "5dd32630-5896-4b08-99ea-604cee1821fa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "6f2754e3-911d-4eae-8bd8-e575e8b134f9",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Down Arrow",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "09798838-1b1b-4bd9-b1d7-1173e52782be",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Up Arrow",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "841ee183-b121-4e98-aebe-688b0b516c9d",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Right Arrow",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1f641062-58e4-45c8-95e0-6122b0020ea0",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Left Arrow",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

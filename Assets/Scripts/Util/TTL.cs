@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class TTL : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private float timeToLive = 5;
+    private float spawnTime;
     void Start()
     {
         
     }
 
+    private void OnEnable()
+    {
+        spawnTime = Time.time;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        
+        if(Time.time - spawnTime > timeToLive)
+        {
+            Destroy(gameObject);
+        }
     }
 }
