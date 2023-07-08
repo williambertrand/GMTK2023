@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _moveSpeedBase;
     [SerializeField] private float _turnSpeed = 0.05f;
 
-    private bool canMove = true;
+    public bool canMove  = true;
     private Vector2 _moveInput;
     private Vector3 _currentDirection;
     private float _currentVelocity;
@@ -28,7 +28,6 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) { Instance = this; }
-
     }
     #endregion
     void Start()

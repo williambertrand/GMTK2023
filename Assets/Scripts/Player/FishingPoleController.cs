@@ -51,19 +51,21 @@ public class FishingPoleController : MonoBehaviour
     }
     void Update()
     {
-        if(this.fishingPoleState != FihsingPoleState.Release){
-            this.CurrentCharge = Mathf.Clamp(this.CurrentCharge + this.chargeRate * Time.deltaTime * (int) this.fishingPoleState, 0f, this.maxCharge);
+        if (this.fishingPoleState != FihsingPoleState.Release)
+        {
+            this.CurrentCharge = Mathf.Clamp(this.CurrentCharge + this.chargeRate * Time.deltaTime * (int)this.fishingPoleState, 0f, this.maxCharge);
 
             if (this.CurrentCharge == this.maxCharge)
             {
                 this.fishingPoleState = FihsingPoleState.DecreasingThrowCharge;
             }
-            else if(this.CurrentCharge == 0f){
+            else if (this.CurrentCharge == 0f)
+            {
                 this.fishingPoleState = FihsingPoleState.IncreasingThrowCharge;
             }
 
-            this.force = (Quaternion.AngleAxis(this.baitInitialAngle,transform.right) * transform.forward) * this.CurrentCharge;
-            
+            this.force = (Quaternion.AngleAxis(this.baitInitialAngle, transform.right) * transform.forward) * this.CurrentCharge;
+
             this.lineRender.enabled = true;
         }
 
@@ -98,7 +100,7 @@ public class FishingPoleController : MonoBehaviour
 
     public void CastPole(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && PlayerController.Instance.canMove)
         {
             PlayerController.Instance.LockPlayer();
             this.fishingPoleState = FihsingPoleState.IncreasingThrowCharge;
@@ -106,8 +108,16 @@ public class FishingPoleController : MonoBehaviour
 
         if (context.canceled)
         {
-            PlayerController.Instance.UnlockPlayer();
             this.fishingPoleState = FihsingPoleState.Release;
+        }
+    }
+
+    public void ReelBack(InputAction.CallbackContext context)
+    {
+        if (!PlayerController.Instance.canMove && context.performed)
+        {
+            PlayerController.Instance.UnlockPlayer();
+            Object.Destroy(this.currentBait);
         }
     }
 
@@ -124,7 +134,6 @@ public class FishingPoleController : MonoBehaviour
             i++;
             Vector3 newPoint = this.baitInitialPosition.transform.position + time * velocity;
             newPoint.y = this.baitInitialPosition.transform.position.y + velocity.y * time + (Physics.gravity.y / 2f * time * time);
-            print(i);
             this.lineRender.SetPosition(i, newPoint);
         }
     }
