@@ -23,6 +23,9 @@ public class PlayerController : MonoBehaviour
 
     private bool IsGrounded() => _characterController.isGrounded;
 
+    delegate void OnPlayerReel();
+    OnPlayerReel onReel;
+
     #region Singleton
     public static PlayerController Instance;
     private void Awake()
@@ -88,7 +91,6 @@ public class PlayerController : MonoBehaviour
         {
             _velocity += GRAVITY * gravityMultiplyer * Time.deltaTime;
         }
-
         _currentDirection.y = _velocity;
     }
 
@@ -97,5 +99,21 @@ public class PlayerController : MonoBehaviour
     {
         _moveInput = context.ReadValue<Vector2>();
         _currentDirection = new Vector3(_moveInput.x, 0.0f, _moveInput.y);
+    }
+
+    public void OnHumanHooked(Human h)
+    {
+        onReel += h.OnReel;
+    }
+
+    public void OnHumanCaught(Human h)
+    {
+        onReel -= h.OnReel;
+    }
+
+    public void OnReelInput(InputAction.CallbackContext context)
+    {
+        if (!context.started) return;
+        onReel?.Invoke();
     }
 }
