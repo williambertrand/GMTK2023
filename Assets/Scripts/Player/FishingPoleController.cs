@@ -14,7 +14,9 @@ public class FishingPoleController : MonoBehaviour
     public float maxCharge = 10f;
     public float CurrentCharge { get; private set; }
 
-    [Header("Pole angle direction")]
+    public Vector3 lookAtDuringCast;
+
+    [Header("Pole angle direction (not used, future feature)")]
     public float maxAngle = 45f;
     public float angleSpeed = 1f;
     // 0 = center, -maxAngle = max left, maxAngle = maxRight
@@ -98,11 +100,13 @@ public class FishingPoleController : MonoBehaviour
     {
         if (context.performed)
         {
+            PlayerController.Instance.LockPlayer();
             this.fishingPoleState = FihsingPoleState.IncreasingThrowCharge;
         }
 
         if (context.canceled)
         {
+            PlayerController.Instance.UnlockPlayer();
             this.fishingPoleState = FihsingPoleState.Release;
         }
     }

@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _moveSpeedBase;
     [SerializeField] private float _turnSpeed = 0.05f;
 
+    private bool canMove = true;
     private Vector2 _moveInput;
     private Vector3 _currentDirection;
     private float _currentVelocity;
@@ -27,7 +28,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) { Instance = this; }
-        
+
     }
     #endregion
     void Start()
@@ -35,31 +36,47 @@ public class PlayerController : MonoBehaviour
         _characterController = GetComponent<CharacterController>();
     }
 
+    public void LockPlayer()
+    {
+        this.canMove = false;
+    }
+
+    public void UnlockPlayer()
+    {
+        this.canMove = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        ApplyGravity();
+        // ApplyGravity();
         ApplyCharacterMovement();
         ApplyCharacterRotation();
     }
 
     private void ApplyCharacterMovement()
     {
-        _characterController.Move(
-            _moveSpeedBase
-            * Time.deltaTime
-            * _currentDirection
-        );
+        if (this.canMove)
+        {
+            _characterController.Move(
+                _moveSpeedBase
+                * Time.deltaTime
+                * _currentDirection
+            );
+        }
     }
 
     private void ApplyCharacterRotation()
     {
-        if (_moveInput.sqrMagnitude == 0) return;
+        if (this.canMove)
+        {
+            if (_moveInput.sqrMagnitude == 0) return;
 
-        float targetAngle = Mathf.Atan2(_currentDirection.x, _currentDirection.z) * Mathf.Rad2Deg;
-        float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _currentVelocity, _turnSpeed);
+            float targetAngle = Mathf.Atan2(_currentDirection.x, _currentDirection.z) * Mathf.Rad2Deg;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _currentVelocity, _turnSpeed);
 
-        transform.rotation = Quaternion.Euler(0.0f, angle, 0.0f);
+            transform.rotation = Quaternion.Euler(0.0f, angle, 0.0f);
+        }
     }
 
     private void ApplyGravity()
