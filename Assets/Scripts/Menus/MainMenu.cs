@@ -65,13 +65,19 @@ public class MainMenu : MonoBehaviour
     public void OnStartPress()
     {
         GameStats.score = 0;
-        AudioManager.Instance.PlayOneShot(AudioEvent.START_GAME);
+        if(AudioManager.Instance != null) 
+            AudioManager.Instance.PlayOneShot(AudioEvent.START_GAME);
 
         if (role == MenuRole.MAIN)
         {
             _bubbles.gameObject.SetActive(true);
             _bubblesOn = true;
             StartCoroutine(LoadSceneWithTransition());
+        } else
+        {
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayMusic(MusicType.RELAXED);
+            SceneManager.LoadScene("GamePlayFinal");
         }
     }
 
@@ -86,7 +92,8 @@ public class MainMenu : MonoBehaviour
     public void OnMenuPress()
     {
         GameStats.score = 0;
-        AudioManager.Instance.PlayOneShot(AudioEvent.BUTTON_CLICK);
+        if(AudioManager.Instance != null)
+            AudioManager.Instance.PlayOneShot(AudioEvent.BUTTON_CLICK);
         SceneManager.LoadScene("MenuScene");
     }
 

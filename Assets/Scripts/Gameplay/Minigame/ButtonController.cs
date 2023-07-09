@@ -29,7 +29,6 @@ public class ButtonController : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown(this.keycode)){
-            print(this.note);
             this.whenHit.Invoke();
             if (this.note)
             {
