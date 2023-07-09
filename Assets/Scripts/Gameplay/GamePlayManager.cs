@@ -67,8 +67,6 @@ public class GamePlayManager : MonoBehaviour
         this._timerRunning = true;
         this.mainCamera.SetActive(true);
         SceneManager.UnloadSceneAsync("RhythmMinigame");
-
-        
     }
 
     private IEnumerator TransitionToScoreScreen()
