@@ -10,6 +10,8 @@ public class BeatScroller : MonoBehaviour
     public float startDelay = 2f;
     public float fadeInDuration = 1f;
 
+    public bool canMiss = false;
+
     public GameObject bait;
 
     [Header("Songs")]
@@ -66,7 +68,7 @@ public class BeatScroller : MonoBehaviour
 
     public void NoteMissed()
     {
-        if (this.fisherman)
+        if (this.fisherman && this.canMiss)
             this.fisherman.transform.position += new Vector3(1f * this.scapeForce, 0f, 0f);
     }
 
