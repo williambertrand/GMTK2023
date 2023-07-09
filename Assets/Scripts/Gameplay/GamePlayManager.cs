@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class GamePlayManager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class GamePlayManager : MonoBehaviour
     private bool _isGameOver;
 
     private bool _timerRunning = true;
+    public PlayerInput inputController;
 
     void Start()
     {

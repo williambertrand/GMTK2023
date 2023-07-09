@@ -25,7 +25,5 @@ public class DrummerController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D col){
         this.beatScroller.canMiss = true;
         this.boxCollider2D.enabled = false;
-
-        print("AAAAAAAAAAA");
     }
 }

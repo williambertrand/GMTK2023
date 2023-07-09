@@ -153,11 +153,13 @@ public class Human : MonoBehaviour
         {
             yield return null;
         }
-        
-        //TODO: Add human type, difficult
-        SceneManager.GetSceneByName("RhythmMinigame").GetRootGameObjects()[0].GetComponent<MinigameSceneController>().Init(HumanType.GoofyOrange, SongLevel.Normal, preferredBait);
+        GamePlayManager gamePlayManager =  GameObject.FindGameObjectWithTag("GameManager").GetComponent<GamePlayManager>();
+        //TODO: Add human type, difficult 
+        MinigameSceneController minigameSceneController = SceneManager.GetSceneByName("RhythmMinigame").GetRootGameObjects()[0].GetComponent<MinigameSceneController>();
+        minigameSceneController.Init(HumanType.GoofyOrange, SongLevel.Normal, preferredBait);
+
         //TODO: cache this
-        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GamePlayManager>().GoToMinigame();
+       gamePlayManager.GoToMinigame();
 
         // TODO: Handle coming back and updating the state, but for now just destroy
         Destroy(gameObject);
