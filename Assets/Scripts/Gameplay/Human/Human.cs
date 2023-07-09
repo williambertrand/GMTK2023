@@ -134,9 +134,10 @@ public class Human : MonoBehaviour
     {
         _onHookedPos = transform.position;
         currentState = HumanState.ON_THE_LINE;
+        AudioManager.Instance.PlayOneShot(AudioEvent.HUMAN_HOOKED);
         _anim.SetTrigger("seeBait");
         // TODO: Handle going to mini game scene and coming back w/ result
-        // SceneManager.LoadScene("Fishing", LoadSceneMode.Additive);
+        SceneManager.LoadScene("RhythmMinigame", LoadSceneMode.Additive);
     }
 
     private void OnCaught()

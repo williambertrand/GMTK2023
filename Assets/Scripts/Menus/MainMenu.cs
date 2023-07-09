@@ -57,11 +57,12 @@ public class MainMenu : MonoBehaviour
         GameStats.score = 0;
         AudioManager.Instance.PlayOneShot(AudioEvent.START_GAME);
 
-
-
-        _bubbles.gameObject.SetActive(true);
-        _bubblesOn = true;
-        StartCoroutine(LoadSceneWithTransition());
+        if(role == MenuRole.MAIN)
+        {
+            _bubbles.gameObject.SetActive(true);
+            _bubblesOn = true;
+            StartCoroutine(LoadSceneWithTransition());
+        }
     }
 
     private IEnumerator LoadSceneWithTransition()
@@ -76,7 +77,7 @@ public class MainMenu : MonoBehaviour
     {
         GameStats.score = 0;
         AudioManager.Instance.PlayOneShot(AudioEvent.BUTTON_CLICK);
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("MenuScene");
     }
 
     private IEnumerator PlayMainMenuMusic()
@@ -89,5 +90,10 @@ public class MainMenu : MonoBehaviour
     public void OnMouseHoverButton()
     {
         AudioManager.Instance.PlayOneShot(AudioEvent.BUTTON_HOVER);
+    }
+
+    public void OnMouseClickButton()
+    {
+        AudioManager.Instance.PlayOneShot(AudioEvent.BUTTON_CLICK);
     }
 }
