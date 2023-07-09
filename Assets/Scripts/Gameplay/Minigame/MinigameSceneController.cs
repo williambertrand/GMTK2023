@@ -36,7 +36,7 @@ public class MinigameSceneController : MonoBehaviour
     }
 
     void Start(){
-        MinigameSceneController.Instance.Init(HumanType.GoofyOrange, SongLevel.Normal, BaitType.HAMBURGER);
+        // MinigameSceneController.Instance.Init(HumanType.GoofyOrange, SongLevel.Normal, BaitType.HAMBURGER);
     }
 
     public void Finish(bool hasWon){
