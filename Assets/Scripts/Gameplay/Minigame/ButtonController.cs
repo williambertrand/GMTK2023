@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class ButtonController : MonoBehaviour
@@ -11,12 +12,15 @@ public class ButtonController : MonoBehaviour
     public Sprite defaultImage;
     public Sprite pressedImage;
 
+    public Animator fishAnimator;
+
+    public UnityEvent whenHit;
     private GameObject note = null;
+    public FishermanController fishermanController;
 
     void Start()
     {
         this.spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
-
     }
 
     // Update is called once per frame
@@ -39,14 +43,21 @@ public class ButtonController : MonoBehaviour
     {
         if (context.performed)
         {
+            this.whenHit.Invoke();
             this.spriteRenderer.sprite = this.pressedImage;
-            if(this.note){
+            if (this.note)
+            {
                 this.beatScroller.NoteHit();
                 GameObject.Destroy(this.note);
+                this.fishAnimator.SetTrigger("Reel");
+                if (this.fishermanController)
+                    this.fishermanController.Hit();
             }
-            else{
+            else
+            {
                 this.beatScroller.NoteMissed();
             }
+
         }
         else if (context.canceled)
         {
