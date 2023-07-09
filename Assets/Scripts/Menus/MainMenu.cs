@@ -25,9 +25,15 @@ public class MainMenu : MonoBehaviour
 
     private bool _musicStarted;
 
+    // Rotate camera on pressing start
+    float _currentTime = 0f;
+    float _timeToMove = 0.1f;
+    bool _isRotating = false;
+    private Vector3 targetRotation;
+
     void Start()
     {
-        if(role == MenuRole.SCORE && scoreText != null)
+        if (role == MenuRole.SCORE && scoreText != null)
         {
             scoreText.text = string.Format("You Caught {0} Humans!", GameStats.score);
         }
@@ -43,12 +49,16 @@ public class MainMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_bubblesOn)
+        if (_bubblesOn)
         {
             _bubbleSpeed += 1.5f * Time.deltaTime;
             var main = _bubbles.main;
             main.startSpeed = _bubbleSpeed;
             _fish.transform.Translate(new Vector3(_bubbleSpeed * 0.25f * Time.deltaTime * -1, 0.0f, 0.0f));
+        }
+        if (_isRotating)
+        {
+            RotateCamera();
         }
     }
 
@@ -57,7 +67,7 @@ public class MainMenu : MonoBehaviour
         GameStats.score = 0;
         AudioManager.Instance.PlayOneShot(AudioEvent.START_GAME);
 
-        if(role == MenuRole.MAIN)
+        if (role == MenuRole.MAIN)
         {
             _bubbles.gameObject.SetActive(true);
             _bubblesOn = true;
@@ -95,5 +105,23 @@ public class MainMenu : MonoBehaviour
     public void OnMouseClickButton()
     {
         AudioManager.Instance.PlayOneShot(AudioEvent.BUTTON_CLICK);
+    }
+
+    void RotateCamera()
+    {
+        if (_isRotating == true)
+        {
+            transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, targetRotation, _currentTime / _timeToMove);
+
+            if (_currentTime <= _timeToMove)
+            {
+                _currentTime += Time.deltaTime;
+            }
+            else
+            {
+                _isRotating = false;
+                _currentTime = 0f;
+            }
+        }
     }
 }
