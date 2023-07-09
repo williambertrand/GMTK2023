@@ -134,9 +134,10 @@ public class Human : MonoBehaviour
     {
         _onHookedPos = transform.position;
         currentState = HumanState.ON_THE_LINE;
+        AudioManager.Instance.PlayOneShot(AudioEvent.HUMAN_HOOKED);
         _anim.SetTrigger("seeBait");
-        SceneManager.LoadScene("Fishing", LoadSceneMode.Additive);
-        // TODO: Handle coming back w/ result
+        // TODO: Handle going to mini game scene and coming back w/ result
+        SceneManager.LoadScene("RhythmMinigame", LoadSceneMode.Additive);
     }
 
     private void OnCaught()
@@ -169,7 +170,6 @@ public class Human : MonoBehaviour
     private void ChooseNewTargetPos()
     {
         int axis = Random.Range(0, 2);
-        Debug.Log("new pos for axis: " + axis);
         _targetPos = RandomPointInBounds(axis);
         
     }

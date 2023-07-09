@@ -87,6 +87,7 @@ public class FishingPoleController : MonoBehaviour
     private void CastBait()
     {
         this.currentBait = GameObject.Instantiate(this.baitPrefab);
+        AudioManager.Instance.PlayOneShot(AudioEvent.PLAYER_CAST);
         _fishingLine.CurrentBait = currentBait;
         this.currentBait.transform.position = this.baitInitialPosition.position;
 

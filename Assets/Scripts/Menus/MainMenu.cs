@@ -33,10 +33,11 @@ public class MainMenu : MonoBehaviour
         }
         else if (role == MenuRole.MAIN)
         {
-            _bubbleSpeed = 20.0f;
             StartCoroutine(PlayMainMenuMusic());
-            _bubbles.gameObject.SetActive(false);
         }
+
+        _bubbleSpeed = 20.0f;
+        _bubbles.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -56,22 +57,27 @@ public class MainMenu : MonoBehaviour
         GameStats.score = 0;
         AudioManager.Instance.PlayOneShot(AudioEvent.START_GAME);
 
-        _bubbles.gameObject.SetActive(true);
-        _bubblesOn = true;
-        StartCoroutine(LoadSceneWithTransition());
+        if(role == MenuRole.MAIN)
+        {
+            _bubbles.gameObject.SetActive(true);
+            _bubblesOn = true;
+            StartCoroutine(LoadSceneWithTransition());
+        }
     }
 
     private IEnumerator LoadSceneWithTransition()
     {
+        yield return new WaitForSeconds(0.5f);
+        AudioManager.Instance.PlayMusic(MusicType.RELAXED);
         yield return new WaitForSeconds(2.5f);
-        SceneManager.LoadScene("HumanTesting");
+        SceneManager.LoadScene("GamePlayFinal");
     }
 
     public void OnMenuPress()
     {
         GameStats.score = 0;
         AudioManager.Instance.PlayOneShot(AudioEvent.BUTTON_CLICK);
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("MenuScene");
     }
 
     private IEnumerator PlayMainMenuMusic()
@@ -84,5 +90,10 @@ public class MainMenu : MonoBehaviour
     public void OnMouseHoverButton()
     {
         AudioManager.Instance.PlayOneShot(AudioEvent.BUTTON_HOVER);
+    }
+
+    public void OnMouseClickButton()
+    {
+        AudioManager.Instance.PlayOneShot(AudioEvent.BUTTON_CLICK);
     }
 }
