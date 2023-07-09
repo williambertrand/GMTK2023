@@ -49,7 +49,7 @@ public class Tutorial : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && step == TutStep.MOVE)
         {
             _moveTutItem.SetActive(false);
             _castTutItem.SetActive(true);
