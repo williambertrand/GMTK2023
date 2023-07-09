@@ -47,6 +47,9 @@ public class BeatScroller : MonoBehaviour
     private bool letFinish = false;
     private bool hasWon = false;
 
+    [Header("Transitions")]
+    public GameObject lostTransition;
+
 
     // Start is called before the first frame update
     void Start()
@@ -77,28 +80,31 @@ public class BeatScroller : MonoBehaviour
     {
         if (letFinish)
         {
-            if(!this.source.isPlaying){
+            if (!this.source.isPlaying)
+            {
                 GameObject.Find("Minigame scene manager").GetComponent<MinigameSceneController>().Finish(this.hasWon);
             }
         }
         else
         {
-            if (this.lastSpawn + 1f / (this.notesPerSecond * ((int)this.songLevel) / 2f) < Time.time)
-            {
-                this.lastSpawn = Time.time;
 
-                var arrow = SpawnArrow();
-                if (arrow)
-                {
-                    arrow.transform.parent = this.transform.parent;
-
-                    arrow.GetComponent<NoteController>().beatTempo = this.BPM / 60f * this.noteSpeed * (int)this.songLevel;
-                }
-            }
 
             if (Time.time > this.startTime + this.startDelay)
             {
                 StartCoroutine(StartFade(this.source, this.fadeInDuration, 1));
+
+                if (this.lastSpawn + 1f / (this.notesPerSecond * ((int)this.songLevel) / 2f) < Time.time)
+                {
+                    this.lastSpawn = Time.time;
+
+                    var arrow = SpawnArrow();
+                    if (arrow)
+                    {
+                        arrow.transform.parent = this.transform.parent;
+
+                        arrow.GetComponent<NoteController>().beatTempo = this.BPM / 60f * this.noteSpeed * (int)this.songLevel;
+                    }
+                }
             }
         }
     }
@@ -126,6 +132,7 @@ public class BeatScroller : MonoBehaviour
     public void Won()
     {
         this.source.clip = this.victory;
+        this.source.Play();
         this.letFinish = true;
         this.hasWon = true;
     }
@@ -133,6 +140,8 @@ public class BeatScroller : MonoBehaviour
     public void Lost()
     {
         this.source.clip = this.lost;
+        this.lostTransition.SetActive(true);
+        this.source.Play();
         this.letFinish = true;
     }
 
