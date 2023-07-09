@@ -265,6 +265,17 @@
                 },
                 {
                     "name": "",
+                    "id": "c1566cf8-a8d2-43ee-bb43-0c20eada2078",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "71e6b00d-6039-40c1-818f-2a5a35689d78",
                     "path": "<Gamepad>/leftTrigger",
                     "interactions": "",

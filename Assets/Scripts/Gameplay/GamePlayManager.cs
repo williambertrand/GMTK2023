@@ -63,7 +63,6 @@ public class GamePlayManager : MonoBehaviour
     }
     public void ReturnFromMinigame(bool hasWon)
     {
-        Debug.Log("returning from minigame won:" + hasWon.ToString());
         this._timerRunning = true;
         this.mainCamera.SetActive(true);
         SceneManager.UnloadSceneAsync("RhythmMinigame");
@@ -72,9 +71,11 @@ public class GamePlayManager : MonoBehaviour
         PlayerController.Instance.GetComponent<FishingPoleController>().ResetBait();
         PlayerController.Instance.UnlockPlayer();
 
+        AudioManager.Instance.PlayMusic(MusicType.RELAXED);
+
         if(hasWon)
         {
-            GameStats.score += 1;
+            currentScore += 1;
             UpdateScoreDisplay();
         }
 
