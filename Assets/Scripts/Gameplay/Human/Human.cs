@@ -140,10 +140,10 @@ public class Human : MonoBehaviour
         AudioManager.Instance.StopAll();
         AudioManager.Instance.PlayOneShot(AudioEvent.HUMAN_HOOKED);
         _anim.SetTrigger("seeBait");
-        Spawner.OnHumanHooked(this);
+        OnCaught();
         // TODO: Handle going to mini game scene and coming back w/ result
-        var op = SceneManager.LoadSceneAsync("RhythmMinigame", LoadSceneMode.Additive);
-        StartCoroutine(LoadAsyncScene(op));
+        //var op = SceneManager.LoadSceneAsync("RhythmMinigame", LoadSceneMode.Additive);
+        //StartCoroutine(LoadAsyncScene(op));
     }
 
     IEnumerator LoadAsyncScene(AsyncOperation asyncLoad)
@@ -167,7 +167,13 @@ public class Human : MonoBehaviour
     {
         currentState = HumanState.CAUGHT;
         onCaught?.Invoke(this);
-        PlayerController.Instance.OnHumanCaught(this);
+        PlayerController.Instance.UnlockPlayer();
+        StartCoroutine(DestroyAfter());
+    }
+
+    private IEnumerator DestroyAfter()
+    {
+        yield return new WaitForSeconds(1.0f);
         Destroy(gameObject);
     }
 
