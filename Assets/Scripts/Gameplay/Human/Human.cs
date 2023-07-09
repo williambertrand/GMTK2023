@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public delegate void OnHumanCaught(Human h);
 
@@ -32,18 +33,16 @@ public class Human : MonoBehaviour
 
     private Animator _anim;
 
+    public BoxCollider movementBounds;
+
+    private bool _isFacingLeft;
+
     // Start is called before the first frame update
     void Start()
     {
         currentState = HumanState.NORMAL;
-
-        _targetPos = new Vector3(
-            transform.position.x,
-            transform.position.y,
-            transform.position.z - TRAVEL_DIST
-        );
-
         _anim = GetComponentInChildren<Animator>();
+        ChooseNewTargetPos();
     }
 
     // Update is called once per frame
@@ -71,10 +70,33 @@ public class Human : MonoBehaviour
         var step = speed * Time.deltaTime; // calculate distance to move
         transform.position = Vector3.MoveTowards(transform.position, _targetPos, step);
 
+        Vector3 dir = transform.position - _targetPos;
+
+        if (dir.x < 0 && !_isFacingLeft)
+        {
+            Flip();
+        }
+        else if (dir.x > 0 && _isFacingLeft)
+        {
+            Flip();
+        }
+
+        if (dir.x != 0)
+        {
+            _anim.SetInteger("dir", 1);
+        }
+        else if (dir.z > 0)
+        {
+            _anim.SetInteger("dir", 2);
+        } else if (dir.z < 0)
+        {
+            _anim.SetInteger("dir", 3);
+        }
+
         if (Vector3.Distance(transform.position, _targetPos) < 0.01f)
         {
-            
-            Destroy(gameObject);
+            ChooseNewTargetPos();
+            //Destroy(gameObject);
         }
     }
 
@@ -112,7 +134,10 @@ public class Human : MonoBehaviour
     {
         _onHookedPos = transform.position;
         currentState = HumanState.ON_THE_LINE;
+        AudioManager.Instance.PlayOneShot(AudioEvent.HUMAN_HOOKED);
         _anim.SetTrigger("seeBait");
+        // TODO: Handle going to mini game scene and coming back w/ result
+        SceneManager.LoadScene("RhythmMinigame", LoadSceneMode.Additive);
     }
 
     private void OnCaught()
@@ -140,5 +165,36 @@ public class Human : MonoBehaviour
                 // TODO: Show an alert on wrong bait type
             }
         }
+    }
+
+    private void ChooseNewTargetPos()
+    {
+        int axis = Random.Range(0, 2);
+        _targetPos = RandomPointInBounds(axis);
+        
+    }
+
+    private Vector3 RandomPointInBounds(int axis)
+    {
+        float x;
+        float z;
+        if (axis == 0)
+        {
+            x = Random.Range(movementBounds.bounds.min.x, movementBounds.bounds.max.x);
+            z = transform.position.z;
+        } else {
+            x = transform.position.x;
+            z = Random.Range(movementBounds.bounds.min.z, movementBounds.bounds.max.z);
+        }
+
+        return new Vector3(x, 2.5f, z);
+    }
+
+    private void Flip()
+    {
+        _isFacingLeft = !_isFacingLeft;
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
     }
 }

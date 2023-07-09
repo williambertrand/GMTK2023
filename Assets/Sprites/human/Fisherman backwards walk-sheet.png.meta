@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0beb9e4045bad254085b1eb2a80cbe88
+guid: 7afee70f871fd4ecf8457a597738f865
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 64
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -116,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Feesh_sideways_Sheet_0
+      name: Fisherman backwards walk-sheet_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 31
-        width: 64
-        height: 42
+        x: 28
+        y: 2
+        width: 97
+        height: 225
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,20 +130,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c72dcd4464dfe6c41b3c22d82eedf0c8
-      internalID: -865490187
+      spriteID: a9e77735bddad446ca7fc78f24d20339
+      internalID: 530720327
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Feesh_sideways_Sheet_1
+      name: Fisherman backwards walk-sheet_1
       rect:
         serializedVersion: 2
-        x: 92
-        y: 31
-        width: 64
-        height: 42
+        x: 234
+        y: 12
+        width: 143
+        height: 194
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -151,20 +151,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c2c6a560f310a5844bf161b8b114b0db
-      internalID: 2093372012
+      spriteID: d81c05f34db9a41e295f8fb4cce56ff8
+      internalID: -690384253
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Feesh_sideways_Sheet_2
+      name: Fisherman backwards walk-sheet_2
       rect:
         serializedVersion: 2
-        x: 184
-        y: 31
-        width: 64
-        height: 42
+        x: 426
+        y: 5
+        width: 195
+        height: 195
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,20 +172,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b95964b6dbe800c4f9a5aaebaec53eb3
-      internalID: 631799499
+      spriteID: 905b17c16b38a462690436b72166bf33
+      internalID: 742099247
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Feesh_sideways_Sheet_3
+      name: Fisherman backwards walk-sheet_3
       rect:
         serializedVersion: 2
-        x: 276
-        y: 31
-        width: 64
-        height: 42
+        x: 657
+        y: 2
+        width: 195
+        height: 200
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,20 +193,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 42880b03b9ab6af4eaff211007606fde
-      internalID: -312238151
+      spriteID: 5100686516b5542db8957cea78efc988
+      internalID: 2081521016
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Feesh_sideways_Sheet_4
+      name: Fisherman backwards walk-sheet_4
       rect:
         serializedVersion: 2
-        x: 368
-        y: 31
-        width: 64
-        height: 42
+        x: 876
+        y: 1
+        width: 149
+        height: 217
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -214,20 +214,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bd5dbbf974cc0ab418cfbac0b1526d78
-      internalID: -161597250
+      spriteID: 6395e9b51bc7342ff82ece35083b3e58
+      internalID: -1303739684
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Feesh_sideways_Sheet_5
+      name: Fisherman backwards walk-sheet_5
       rect:
         serializedVersion: 2
-        x: 460
-        y: 31
-        width: 64
-        height: 42
+        x: 1065
+        y: 15
+        width: 195
+        height: 185
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -235,20 +235,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 074426b4b2745064184fe769ddf3a0f8
-      internalID: -751041125
+      spriteID: 33e0d42af94dc4da1a8fa5a7de229857
+      internalID: 2050506456
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Feesh_sideways_Sheet_6
+      name: Fisherman backwards walk-sheet_6
       rect:
         serializedVersion: 2
-        x: 552
-        y: 31
-        width: 64
-        height: 42
+        x: 1279
+        y: 6
+        width: 195
+        height: 193
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -256,8 +256,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f14c4159695a3c442b86a3f766f6e007
-      internalID: 1566728369
+      spriteID: a7cf60d2f3ec34389aa964b926fc48c5
+      internalID: 828356834
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fisherman backwards walk-sheet_7
+      rect:
+        serializedVersion: 2
+        x: 1505
+        y: 0
+        width: 134
+        height: 204
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 720063f2ef46a4ef4b116af6328347fc
+      internalID: -1834787118
       vertices: []
       indices: 
       edges: []
@@ -265,7 +286,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 19ff0a3bc77d3844097bd996163a548e
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -273,13 +294,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Feesh_sideways_Sheet_1: 2093372012
-      Feesh_sideways_Sheet_2: 631799499
-      Feesh_sideways_Sheet_4: -161597250
-      Feesh_sideways_Sheet_3: -312238151
-      Feesh_sideways_Sheet_6: 1566728369
-      Feesh_sideways_Sheet_0: -865490187
-      Feesh_sideways_Sheet_5: -751041125
+      Fisherman backwards walk-sheet_0: 530720327
+      Fisherman backwards walk-sheet_1: -690384253
+      Fisherman backwards walk-sheet_2: 742099247
+      Fisherman backwards walk-sheet_3: 2081521016
+      Fisherman backwards walk-sheet_7: -1834787118
+      Fisherman backwards walk-sheet_4: -1303739684
+      Fisherman backwards walk-sheet_5: 2050506456
+      Fisherman backwards walk-sheet_6: 828356834
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

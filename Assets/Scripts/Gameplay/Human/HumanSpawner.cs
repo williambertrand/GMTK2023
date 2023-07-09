@@ -14,6 +14,10 @@ public class HumanSpawner : MonoBehaviour
     private bool isActive;
 
     [SerializeField] private BoxCollider _spawnBounds;
+    [SerializeField] private BoxCollider _movementBounds;
+
+    [SerializeField] private int _maxHumanCount;
+    private int _currentHumanCount;
 
     GamePlayManager _gameplayManager;
 
@@ -28,8 +32,10 @@ public class HumanSpawner : MonoBehaviour
     {
         if (!isActive) return;
 
-        if (Time.time - _lastSpawn >= _currentSpawnDelay)
-        {
+        if (
+            _currentHumanCount < _maxHumanCount
+            && Time.time - _lastSpawn >= _currentSpawnDelay
+        ) {
             SpawnHuman();
         }
     }
@@ -46,15 +52,16 @@ public class HumanSpawner : MonoBehaviour
         
         // TODO: TESTING - remove
         h.preferredBait = BaitType.HAMBURGER;
-        
-       
         h.RequiredCaptureCount = Random.Range(8, 15);
+        h.movementBounds = _movementBounds;
 
         h.speed = GetCurrentHumanSpeed();
         if (_gameplayManager != null)
         {
             h.onCaught += _gameplayManager.OnHumanCaught;
         }
+
+        _currentHumanCount++;
         
     }
 

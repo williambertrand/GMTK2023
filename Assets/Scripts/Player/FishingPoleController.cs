@@ -36,6 +36,9 @@ public class FishingPoleController : MonoBehaviour
 
     public FihsingPoleState fishingPoleState;
 
+    [Header("Line to bait after cast")]
+    [SerializeField] private FishingLine _fishingLine;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -84,6 +87,8 @@ public class FishingPoleController : MonoBehaviour
     private void CastBait()
     {
         this.currentBait = GameObject.Instantiate(this.baitPrefab);
+        AudioManager.Instance.PlayOneShot(AudioEvent.PLAYER_CAST);
+        _fishingLine.CurrentBait = currentBait;
         this.currentBait.transform.position = this.baitInitialPosition.position;
 
         var rb = this.currentBait.GetComponent<Rigidbody>();
@@ -117,6 +122,7 @@ public class FishingPoleController : MonoBehaviour
         if (!PlayerController.Instance.canMove && context.performed)
         {
             PlayerController.Instance.UnlockPlayer();
+            _fishingLine.CurrentBait = null;
             Object.Destroy(this.currentBait);
         }
     }
