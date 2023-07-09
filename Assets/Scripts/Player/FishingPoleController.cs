@@ -39,6 +39,9 @@ public class FishingPoleController : MonoBehaviour
     [Header("Line to bait after cast")]
     [SerializeField] private FishingLine _fishingLine;
 
+    [Header("Tutorial")]
+    [SerializeField] private Tutorial _tutorial;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -90,7 +93,7 @@ public class FishingPoleController : MonoBehaviour
         AudioManager.Instance.PlayOneShot(AudioEvent.PLAYER_CAST);
         _fishingLine.CurrentBait = currentBait;
         this.currentBait.transform.position = this.baitInitialPosition.position;
-
+        currentBait.GetComponent<Bait>().onDestroy += ResetBait;
         var rb = this.currentBait.GetComponent<Rigidbody>();
         rb.mass = this.baitMass;
         rb.velocity = this.force;
@@ -100,6 +103,8 @@ public class FishingPoleController : MonoBehaviour
         this.lineRender.enabled = false;
 
         this.force = Vector3.zero;
+
+        _tutorial.OnCastComplete();
     }
 
 
@@ -129,8 +134,8 @@ public class FishingPoleController : MonoBehaviour
 
     public void ResetBait()
     {
+        PlayerController.Instance.UnlockPlayer();
         _fishingLine.CurrentBait = null;
-        Object.Destroy(this.currentBait);
     }
 
     private void DrawPath()
