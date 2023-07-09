@@ -49,6 +49,7 @@ public class BeatScroller : MonoBehaviour
 
     [Header("Transitions")]
     public GameObject lostTransition;
+    public GameObject victoryTransition;
 
 
     // Start is called before the first frame update
@@ -132,6 +133,7 @@ public class BeatScroller : MonoBehaviour
     public void Won()
     {
         this.source.clip = this.victory;
+        this.victoryTransition.SetActive(true);
         this.source.Play();
         this.letFinish = true;
         this.hasWon = true;
