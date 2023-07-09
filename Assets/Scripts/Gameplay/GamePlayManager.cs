@@ -19,8 +19,6 @@ public class GamePlayManager : MonoBehaviour
     private bool _timerRunning = true;
     public PlayerInput inputController;
 
-    [SerializeField] private PlayerInput gameplayActions;
-
     void Start()
     {
         currentScore = 0;
@@ -64,14 +62,12 @@ public class GamePlayManager : MonoBehaviour
     {
         this._timerRunning = false;
         this.mainCamera.SetActive(false);
-        gameplayActions.DeactivateInput();
     }
     public void ReturnFromMinigame(bool hasWon)
     {
         this._timerRunning = true;
         this.mainCamera.SetActive(true);
         SceneManager.UnloadSceneAsync("RhythmMinigame");
-        gameplayActions.ActivateInput();
 
         PlayerController.Instance.GetComponent<FishingPoleController>().ResetBait();
         PlayerController.Instance.UnlockPlayer();
