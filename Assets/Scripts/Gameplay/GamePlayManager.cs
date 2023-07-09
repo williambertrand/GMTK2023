@@ -63,14 +63,15 @@ public class GamePlayManager : MonoBehaviour
     {
         this._timerRunning = false;
         this.mainCamera.SetActive(false);
-        gameplayActions.DeactivateInput();
+        PlayerController.Instance.LockPlayer();
+        //gameplayActions.DeactivateInput();
     }
     public void ReturnFromMinigame(bool hasWon)
     {
         this._timerRunning = true;
         this.mainCamera.SetActive(true);
         SceneManager.UnloadSceneAsync("RhythmMinigame");
-        gameplayActions.ActivateInput();
+        //gameplayActions.ActivateInput();
 
         PlayerController.Instance.GetComponent<FishingPoleController>().ResetBait();
         PlayerController.Instance.UnlockPlayer();
