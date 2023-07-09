@@ -107,6 +107,11 @@ public class AudioManager : MonoBehaviour
         _audioMusic.Play();
     }
 
+    public void StopAll(){
+        _audioSFX.Stop();
+        _audioMusic.Stop();
+    }
+
     private AudioClip loadClip(string name)
     {
         return (AudioClip)Resources.Load("Audio/" + name);

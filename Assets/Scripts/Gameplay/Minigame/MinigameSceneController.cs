@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MinigameSceneController : MonoBehaviour
 {
@@ -35,15 +36,11 @@ public class MinigameSceneController : MonoBehaviour
     }
 
     void Start(){
-        MinigameSceneController.Instance.Init(HumanType.GoofyOrange, SongLevel.Normal, BaitType.HAMBURGER);
+        // MinigameSceneController.Instance.Init(HumanType.GoofyOrange, SongLevel.Normal, BaitType.HAMBURGER);
     }
 
-    public void Win(){
-
-    }
-
-    public void Lost(){
-    
+    public void Finish(bool hasWon){
+        SceneManager.GetSceneByName("GamePlayFinal").GetRootGameObjects().Where(x => x.gameObject.name == "GameManager").First().GetComponent<GamePlayManager>().ReturnFromMinigame(hasWon);
     }
 
 }

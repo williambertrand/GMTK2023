@@ -88,7 +88,8 @@ public class Human : MonoBehaviour
         else if (dir.z > 0)
         {
             _anim.SetInteger("dir", 2);
-        } else if (dir.z < 0)
+        }
+        else if (dir.z < 0)
         {
             _anim.SetInteger("dir", 3);
         }
@@ -118,10 +119,11 @@ public class Human : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, PlayerController.Instance.transform.position);
 
         float step;
-        if(distanceToPlayer > percentRemaining * originalDistance)
+        if (distanceToPlayer > percentRemaining * originalDistance)
         {
             step = _speedOnHook * Time.deltaTime;
-        } else
+        }
+        else
         {
             step = 0;
         }
@@ -134,10 +136,26 @@ public class Human : MonoBehaviour
     {
         _onHookedPos = transform.position;
         currentState = HumanState.ON_THE_LINE;
+        AudioManager.Instance.StopAll();
         AudioManager.Instance.PlayOneShot(AudioEvent.HUMAN_HOOKED);
         _anim.SetTrigger("seeBait");
         // TODO: Handle going to mini game scene and coming back w/ result
-        SceneManager.LoadScene("RhythmMinigame", LoadSceneMode.Additive);
+        var op = SceneManager.LoadSceneAsync("RhythmMinigame", LoadSceneMode.Additive);
+        StartCoroutine(LoadAsyncScene(op));
+    }
+
+    IEnumerator LoadAsyncScene(AsyncOperation asyncLoad)
+    {
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+        
+        //TODO: Add human type, difficult
+        SceneManager.GetSceneByName("RhythmMinigame").GetRootGameObjects()[0].GetComponent<MinigameSceneController>().Init(HumanType.GoofyOrange, SongLevel.Normal, preferredBait);
+        //TODO: cache this
+        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GamePlayManager>().GoToMinigame();
     }
 
     private void OnCaught()
@@ -154,7 +172,7 @@ public class Human : MonoBehaviour
         if (isBait)
         {
             Bait b = other.GetComponent<Bait>();
-            if(b.baitType == preferredBait)
+            if (b.baitType == preferredBait)
             {
                 OnHooked();
                 PlayerController.Instance.OnHumanHooked(this);
@@ -171,7 +189,7 @@ public class Human : MonoBehaviour
     {
         int axis = Random.Range(0, 2);
         _targetPos = RandomPointInBounds(axis);
-        
+
     }
 
     private Vector3 RandomPointInBounds(int axis)
@@ -182,7 +200,9 @@ public class Human : MonoBehaviour
         {
             x = Random.Range(movementBounds.bounds.min.x, movementBounds.bounds.max.x);
             z = transform.position.z;
-        } else {
+        }
+        else
+        {
             x = transform.position.x;
             z = Random.Range(movementBounds.bounds.min.z, movementBounds.bounds.max.z);
         }

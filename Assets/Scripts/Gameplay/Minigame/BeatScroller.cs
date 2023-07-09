@@ -45,6 +45,7 @@ public class BeatScroller : MonoBehaviour
     private float lastSpawn = 0f;
 
     private bool letFinish = false;
+    private bool hasWon = false;
 
 
     // Start is called before the first frame update
@@ -74,22 +75,31 @@ public class BeatScroller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (this.lastSpawn + 1f / (this.notesPerSecond * ((int)this.songLevel) / 2f) < Time.time)
+        if (letFinish)
         {
-            this.lastSpawn = Time.time;
-
-            var arrow = SpawnArrow();
-            if (arrow)
-            {
-                arrow.transform.parent = this.transform.parent;
-
-                arrow.GetComponent<NoteController>().beatTempo = this.BPM / 60f * this.noteSpeed * (int)this.songLevel;
+            if(!this.source.isPlaying){
+                GameObject.Find("Minigame scene manager").GetComponent<MinigameSceneController>().Finish(this.hasWon);
             }
         }
-
-        if (Time.time > this.startTime + this.startDelay)
+        else
         {
-            StartCoroutine(StartFade(this.source, this.fadeInDuration, 1));
+            if (this.lastSpawn + 1f / (this.notesPerSecond * ((int)this.songLevel) / 2f) < Time.time)
+            {
+                this.lastSpawn = Time.time;
+
+                var arrow = SpawnArrow();
+                if (arrow)
+                {
+                    arrow.transform.parent = this.transform.parent;
+
+                    arrow.GetComponent<NoteController>().beatTempo = this.BPM / 60f * this.noteSpeed * (int)this.songLevel;
+                }
+            }
+
+            if (Time.time > this.startTime + this.startDelay)
+            {
+                StartCoroutine(StartFade(this.source, this.fadeInDuration, 1));
+            }
         }
     }
 
@@ -117,6 +127,7 @@ public class BeatScroller : MonoBehaviour
     {
         this.source.clip = this.victory;
         this.letFinish = true;
+        this.hasWon = true;
     }
 
     public void Lost()

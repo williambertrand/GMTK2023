@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GamePlayManager : MonoBehaviour
 {
     public int currentScore;
+    private GameObject mainCamera;
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text timerText;
 
@@ -14,12 +15,14 @@ public class GamePlayManager : MonoBehaviour
     private float _currentTimeLeft;
     private bool _isGameOver;
 
+    private bool _timerRunning = true;
 
     void Start()
     {
         currentScore = 0;
         _isGameOver = false;
         _currentTimeLeft = timeToPlay;
+        this.mainCamera = Camera.main.gameObject;
     }
 
     // Update is called once per frame
@@ -27,18 +30,22 @@ public class GamePlayManager : MonoBehaviour
     {
         if (_isGameOver) return;
 
-        _currentTimeLeft -= Time.deltaTime;
-        if (_currentTimeLeft > 0)
+        if (_timerRunning)
         {
-            timerText.text = string.Format("{0:00}", _currentTimeLeft);
-        } else
-        {
-            _isGameOver = true;
-            timerText.text = "Times Up!";
+            _currentTimeLeft -= Time.deltaTime;
+            if (_currentTimeLeft > 0)
+            {
+                timerText.text = string.Format("{0:00}", _currentTimeLeft);
+            }
+            else
+            {
+                _isGameOver = true;
+                timerText.text = "Times Up!";
 
-            // Update score and head to score screen after fading out
-            GameStats.score = currentScore;
-            StartCoroutine(TransitionToScoreScreen());
+                // Update score and head to score screen after fading out
+                GameStats.score = currentScore;
+                StartCoroutine(TransitionToScoreScreen());
+            }
         }
     }
 
@@ -47,6 +54,21 @@ public class GamePlayManager : MonoBehaviour
         // TODO: Just counting right now, but if we want to do points we can update that here
         currentScore += h.scoreValue;
         scoreText.text = string.Format("{0}", currentScore);
+    }
+
+    public void GoToMinigame()
+    {
+        this._timerRunning = false;
+        this.mainCamera.SetActive(false);
+    }
+    public void ReturnFromMinigame(bool hasWon)
+    {
+
+        this._timerRunning = true;
+        this.mainCamera.SetActive(true);
+        SceneManager.UnloadSceneAsync("RhythmMinigame");
+
+        
     }
 
     private IEnumerator TransitionToScoreScreen()
