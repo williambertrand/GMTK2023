@@ -127,6 +127,12 @@ public class FishingPoleController : MonoBehaviour
         }
     }
 
+    public void ResetBait()
+    {
+        _fishingLine.CurrentBait = null;
+        Object.Destroy(this.currentBait);
+    }
+
     private void DrawPath()
     {
         this.lineRender.positionCount = Mathf.CeilToInt(this.numberOfPoints / this.timeBetweenPoints) + 2;
