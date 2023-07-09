@@ -53,7 +53,7 @@ public class GamePlayManager : MonoBehaviour
     {
         // TODO: Just counting right now, but if we want to do points we can update that here
         currentScore += h.scoreValue;
-        scoreText.text = string.Format("{0}", currentScore);
+        UpdateScoreDisplay();
     }
 
     public void GoToMinigame()
@@ -63,12 +63,26 @@ public class GamePlayManager : MonoBehaviour
     }
     public void ReturnFromMinigame(bool hasWon)
     {
-
+        Debug.Log("returning from minigame won:" + hasWon.ToString());
         this._timerRunning = true;
         this.mainCamera.SetActive(true);
         SceneManager.UnloadSceneAsync("RhythmMinigame");
 
+
+        PlayerController.Instance.GetComponent<FishingPoleController>().ResetBait();
         PlayerController.Instance.UnlockPlayer();
+
+        if(hasWon)
+        {
+            GameStats.score += 1;
+            UpdateScoreDisplay();
+        }
+
+    }
+
+    private void UpdateScoreDisplay()
+    {
+        scoreText.text = string.Format("{0}", currentScore);
     }
 
     private IEnumerator TransitionToScoreScreen()

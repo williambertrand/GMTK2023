@@ -156,6 +156,9 @@ public class Human : MonoBehaviour
         SceneManager.GetSceneByName("RhythmMinigame").GetRootGameObjects()[0].GetComponent<MinigameSceneController>().Init(HumanType.GoofyOrange, SongLevel.Normal, preferredBait);
         //TODO: cache this
         GameObject.FindGameObjectWithTag("GameManager").GetComponent<GamePlayManager>().GoToMinigame();
+
+        // TODO: Handle coming back and updating the state, but for now just destroy
+        Destroy(gameObject);
     }
 
     private void OnCaught()
