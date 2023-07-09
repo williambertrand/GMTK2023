@@ -30,6 +30,7 @@ public class Human : MonoBehaviour
     public int scoreValue = 1;
     private Vector3 _onHookedPos;
     public OnHumanCaught onCaught;
+    public HumanSpawner Spawner;
 
     private Animator _anim;
 
@@ -139,6 +140,7 @@ public class Human : MonoBehaviour
         AudioManager.Instance.StopAll();
         AudioManager.Instance.PlayOneShot(AudioEvent.HUMAN_HOOKED);
         _anim.SetTrigger("seeBait");
+        Spawner.OnHumanHooked(this);
         // TODO: Handle going to mini game scene and coming back w/ result
         var op = SceneManager.LoadSceneAsync("RhythmMinigame", LoadSceneMode.Additive);
         StartCoroutine(LoadAsyncScene(op));
