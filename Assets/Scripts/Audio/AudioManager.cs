@@ -9,14 +9,17 @@ public enum AudioEvent
     START_GAME,
 
     PLAYER_CAST,
-    PLAYER_CATCH
+    PLAYER_CATCH,
+
+    HUMAN_HOOKED,
 }
 
 public enum MusicType
 {
     MENU,
     RELAXED,
-    ACTIVE
+    ACTIVE,
+    CATCH
 }
 
 public class AudioManager : MonoBehaviour
@@ -64,10 +67,14 @@ public class AudioManager : MonoBehaviour
 
         sfxClips.Add(AudioEvent.PLAYER_CAST, loadClip("SFX/plr_fishingrod_throw_01"));
         sfxClips.Add(AudioEvent.PLAYER_CATCH, loadClip("SFX/sfx_fishing_catch_01"));
+        sfxClips.Add(AudioEvent.HUMAN_HOOKED, loadClip("SFX/sfx_fishing_caught_point_01"));
 
         musicClips = new Dictionary<MusicType, AudioClip>();
 
         musicClips.Add(MusicType.MENU, loadClip("Music/just_ocean_noises"));
+        musicClips.Add(MusicType.RELAXED, loadClip("Music/FISHING"));
+        musicClips.Add(MusicType.ACTIVE, loadClip("Music/HUMANING"));
+        musicClips.Add(MusicType.CATCH, loadClip("Music/NICECATCH"));
 
         Debug.Log("~~ Audio files loaded! ~~");
         hasLoaded = true;
