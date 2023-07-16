@@ -19,6 +19,8 @@ public class MinigameSceneController : MonoBehaviour
     public ButtonController leftButton;
     public ButtonController rightButton;
 
+    public bool isDebug = false;
+
     private void Awake()
     {
         Instance = this;
@@ -39,7 +41,8 @@ public class MinigameSceneController : MonoBehaviour
     }
 
     void Start(){
-        // MinigameSceneController.Instance.Init(HumanType.GoofyOrange, SongLevel.Normal, BaitType.HAMBURGER);
+        if(this.isDebug)
+            MinigameSceneController.Instance.Init(HumanType.GoofyOrange, SongLevel.Normal, BaitType.HAMBURGER);
     }
 
     public void Finish(bool hasWon){
