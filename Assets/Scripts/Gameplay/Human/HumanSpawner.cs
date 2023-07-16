@@ -65,7 +65,8 @@ public class HumanSpawner : MonoBehaviour
         h.speed = GetCurrentHumanSpeed();
         if (_gameplayManager != null)
         {
-            h.onCaught += _gameplayManager.OnHumanCaught;
+            // Don't need this now that mini game transitions back to scene w/ score
+            // h.onCaught += _gameplayManager.OnHumanCaught;
         }
 
         _currentHumanCount++;
