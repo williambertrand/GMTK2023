@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class GamePlayManager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class GamePlayManager : MonoBehaviour
     private bool _isGameOver;
 
     private bool _timerRunning = true;
+    public PlayerInput inputController;
 
     void Start()
     {
@@ -63,7 +65,6 @@ public class GamePlayManager : MonoBehaviour
     }
     public void ReturnFromMinigame(bool hasWon)
     {
-        Debug.Log("returning from minigame won:" + hasWon.ToString());
         this._timerRunning = true;
         this.mainCamera.SetActive(true);
         SceneManager.UnloadSceneAsync("RhythmMinigame");
@@ -71,9 +72,11 @@ public class GamePlayManager : MonoBehaviour
         PlayerController.Instance.GetComponent<FishingPoleController>().ResetBait();
         PlayerController.Instance.UnlockPlayer();
 
+        AudioManager.Instance.PlayMusic(MusicType.RELAXED);
+
         if(hasWon)
         {
-            GameStats.score += 1;
+            currentScore += 1;
             UpdateScoreDisplay();
         }
 

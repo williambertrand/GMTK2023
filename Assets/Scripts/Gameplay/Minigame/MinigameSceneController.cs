@@ -15,6 +15,9 @@ public class MinigameSceneController : MonoBehaviour
 
     public Transform poleTip;
     public Transform victoryPosition;
+    
+    public ButtonController leftButton;
+    public ButtonController rightButton;
 
     private void Awake()
     {

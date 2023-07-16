@@ -54,15 +54,28 @@ public class HumanSpawner : MonoBehaviour
         h.preferredBait = BaitType.HAMBURGER;
         h.RequiredCaptureCount = Random.Range(8, 15);
         h.movementBounds = _movementBounds;
+        h.Spawner = this;
+
+        h.transform.localScale = new Vector3(
+            Random.Range(1.05f, 1.85f),
+            Random.Range(1.05f, 1.85f),
+            Random.Range(1.05f, 1.85f)
+        );
 
         h.speed = GetCurrentHumanSpeed();
         if (_gameplayManager != null)
         {
-            h.onCaught += _gameplayManager.OnHumanCaught;
+            // Don't need this now that mini game transitions back to scene w/ score
+            // h.onCaught += _gameplayManager.OnHumanCaught;
         }
 
         _currentHumanCount++;
         
+    }
+
+    public void OnHumanHooked(Human h)
+    {
+        _currentHumanCount -= 1;
     }
 
     private float GetCurrentHumanSpeed()

@@ -10,6 +10,8 @@ public class BeatScroller : MonoBehaviour
     public float startDelay = 2f;
     public float fadeInDuration = 1f;
 
+    public bool canMiss = false;
+
     public GameObject bait;
 
     [Header("Songs")]
@@ -47,6 +49,10 @@ public class BeatScroller : MonoBehaviour
     private bool letFinish = false;
     private bool hasWon = false;
 
+    [Header("Transitions")]
+    public GameObject lostTransition;
+    public GameObject victoryTransition;
+
 
     // Start is called before the first frame update
     void Start()
@@ -62,7 +68,7 @@ public class BeatScroller : MonoBehaviour
 
     public void NoteMissed()
     {
-        if (this.fisherman)
+        if (this.fisherman && this.canMiss)
             this.fisherman.transform.position += new Vector3(1f * this.scapeForce, 0f, 0f);
     }
 
@@ -77,28 +83,31 @@ public class BeatScroller : MonoBehaviour
     {
         if (letFinish)
         {
-            if(!this.source.isPlaying){
+            if (!this.source.isPlaying)
+            {
                 GameObject.Find("Minigame scene manager").GetComponent<MinigameSceneController>().Finish(this.hasWon);
             }
         }
         else
         {
-            if (this.lastSpawn + 1f / (this.notesPerSecond * ((int)this.songLevel) / 2f) < Time.time)
-            {
-                this.lastSpawn = Time.time;
 
-                var arrow = SpawnArrow();
-                if (arrow)
-                {
-                    arrow.transform.parent = this.transform.parent;
-
-                    arrow.GetComponent<NoteController>().beatTempo = this.BPM / 60f * this.noteSpeed * (int)this.songLevel;
-                }
-            }
 
             if (Time.time > this.startTime + this.startDelay)
             {
                 StartCoroutine(StartFade(this.source, this.fadeInDuration, 1));
+
+                if (this.lastSpawn + 1f / (this.notesPerSecond * ((int)this.songLevel) / 2f) < Time.time)
+                {
+                    this.lastSpawn = Time.time;
+
+                    var arrow = SpawnArrow();
+                    if (arrow)
+                    {
+                        arrow.transform.parent = this.transform.parent;
+
+                        arrow.GetComponent<NoteController>().beatTempo = this.BPM / 60f * this.noteSpeed * (int)this.songLevel;
+                    }
+                }
             }
         }
     }
@@ -126,6 +135,8 @@ public class BeatScroller : MonoBehaviour
     public void Won()
     {
         this.source.clip = this.victory;
+        this.victoryTransition.SetActive(true);
+        this.source.Play();
         this.letFinish = true;
         this.hasWon = true;
     }
@@ -133,6 +144,8 @@ public class BeatScroller : MonoBehaviour
     public void Lost()
     {
         this.source.clip = this.lost;
+        this.lostTransition.SetActive(true);
+        this.source.Play();
         this.letFinish = true;
     }
 

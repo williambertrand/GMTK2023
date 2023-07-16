@@ -30,6 +30,7 @@ public class Human : MonoBehaviour
     public int scoreValue = 1;
     private Vector3 _onHookedPos;
     public OnHumanCaught onCaught;
+    public HumanSpawner Spawner;
 
     private Animator _anim;
 
@@ -139,6 +140,7 @@ public class Human : MonoBehaviour
         AudioManager.Instance.StopAll();
         AudioManager.Instance.PlayOneShot(AudioEvent.HUMAN_HOOKED);
         _anim.SetTrigger("seeBait");
+        Spawner.OnHumanHooked(this);
         // TODO: Handle going to mini game scene and coming back w/ result
         var op = SceneManager.LoadSceneAsync("RhythmMinigame", LoadSceneMode.Additive);
         StartCoroutine(LoadAsyncScene(op));
@@ -151,11 +153,13 @@ public class Human : MonoBehaviour
         {
             yield return null;
         }
-        
-        //TODO: Add human type, difficult
-        SceneManager.GetSceneByName("RhythmMinigame").GetRootGameObjects()[0].GetComponent<MinigameSceneController>().Init(HumanType.GoofyOrange, SongLevel.Normal, preferredBait);
+        GamePlayManager gamePlayManager =  GameObject.FindGameObjectWithTag("GameManager").GetComponent<GamePlayManager>();
+        //TODO: Add human type, difficult 
+        MinigameSceneController minigameSceneController = SceneManager.GetSceneByName("RhythmMinigame").GetRootGameObjects()[0].GetComponent<MinigameSceneController>();
+        minigameSceneController.Init(HumanType.GoofyOrange, SongLevel.Normal, preferredBait);
+
         //TODO: cache this
-        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GamePlayManager>().GoToMinigame();
+       gamePlayManager.GoToMinigame();
 
         // TODO: Handle coming back and updating the state, but for now just destroy
         Destroy(gameObject);
