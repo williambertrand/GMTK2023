@@ -19,6 +19,7 @@ public class ButtonController : MonoBehaviour
     public FishermanController fishermanController;
 
     public KeyCode keycode;
+    public KeyCode keycodeAlt;
 
     void Start()
     {
@@ -28,7 +29,8 @@ public class ButtonController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(this.keycode)){
+        if(Input.GetKeyDown(this.keycode) || Input.GetKeyDown(this.keycodeAlt))
+        {
             this.whenHit.Invoke();
             if (this.note)
             {

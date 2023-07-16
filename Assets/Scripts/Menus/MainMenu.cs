@@ -101,7 +101,7 @@ public class MainMenu : MonoBehaviour
     {
         while (!AudioManager.Instance.hasLoaded)
             yield return new WaitForSeconds(0.25f);
-        AudioManager.Instance.PlayMusic(MusicType.RELAXED);
+        AudioManager.Instance.PlayMusic(MusicType.MENU);
     }
 
     public void OnMouseHoverButton()
