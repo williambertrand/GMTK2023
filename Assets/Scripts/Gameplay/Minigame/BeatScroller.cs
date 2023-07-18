@@ -12,6 +12,8 @@ public class BeatScroller : MonoBehaviour
 
     public bool canMiss = false;
 
+    public FishReelSFX fishReelSFX;
+
     public GameObject bait;
 
     [Header("Songs")]
@@ -68,14 +70,18 @@ public class BeatScroller : MonoBehaviour
 
     public void NoteMissed()
     {
-        if (this.fisherman && this.canMiss)
+        if (this.fisherman && this.canMiss){
             this.fisherman.transform.position += new Vector3(1f * this.scapeForce, 0f, 0f);
+            this.fishReelSFX.ReelOut();
+        }
     }
 
     public void NoteHit()
     {
-        if (this.fisherman)
+        if (this.fisherman){
             this.fisherman.transform.position -= new Vector3(1f * this.pullForce, 0f, 0f);
+            this.fishReelSFX.ReelIn();
+        }
     }
 
     // Update is called once per frame
