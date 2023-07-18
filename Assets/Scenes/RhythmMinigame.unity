@@ -18227,6 +18227,7 @@ MonoBehaviour:
         m_CallState: 2
   fishermanController: {fileID: 0}
   keycode: 97
+  keycodeAlt: 276
 --- !u!61 &8621064082134104566
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -18301,6 +18302,7 @@ MonoBehaviour:
         m_CallState: 2
   fishermanController: {fileID: 0}
   keycode: 100
+  keycodeAlt: 275
 --- !u!61 &9157296650210162720
 BoxCollider2D:
   m_ObjectHideFlags: 0
