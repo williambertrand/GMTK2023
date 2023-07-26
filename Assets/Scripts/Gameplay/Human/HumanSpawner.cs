@@ -51,16 +51,16 @@ public class HumanSpawner : MonoBehaviour
         h.preferredBait = Bait.GetRandomBait();
         
         // TODO: TESTING - remove
-        h.preferredBait = BaitType.HAMBURGER;
+        // h.preferredBait = BaitType.HAMBURGER;
         h.RequiredCaptureCount = Random.Range(8, 15);
         h.movementBounds = _movementBounds;
         h.Spawner = this;
 
-        h.transform.localScale = new Vector3(
-            Random.Range(1.05f, 1.85f),
-            Random.Range(1.05f, 1.85f),
-            Random.Range(1.05f, 1.85f)
-        );
+        // h.transform.Find("Human-Sprite").transform.localScale = new Vector3(
+        //     Random.Range(1.05f, 1.85f),
+        //     Random.Range(1.05f, 1.85f),
+        //     Random.Range(1.05f, 1.85f)
+        // );
 
         h.speed = GetCurrentHumanSpeed();
         if (_gameplayManager != null)

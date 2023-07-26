@@ -20,6 +20,7 @@ public class Bait : MonoBehaviour
     {
         System.Array values = System.Enum.GetValues(typeof(BaitType));
         BaitType randBait = (BaitType)values.GetValue(Random.Range(0, values.Length));
+        print(randBait);
         return randBait;
     }
 

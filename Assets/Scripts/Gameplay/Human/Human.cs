@@ -15,6 +15,7 @@ public class Human : MonoBehaviour
         CAUGHT
     }
 
+    public BubbleThought bubbleThought;
     public float speed;
     private Vector3 _targetPos;
 
@@ -44,6 +45,8 @@ public class Human : MonoBehaviour
         currentState = HumanState.NORMAL;
         _anim = GetComponentInChildren<Animator>();
         ChooseNewTargetPos();
+
+        this.bubbleThought.type = this.preferredBait;
     }
 
     // Update is called once per frame
