@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,13 @@ public class FishingPoleController : MonoBehaviour
     public GameObject baitPrefab;
     public Transform baitInitialPosition;
     private GameObject currentBait;
+
+    [Header("Bait selector")]
+    public GameObject hamburguer;
+    public GameObject phone;
+    public GameObject money;
+    private int baitPos = 0;
+
     [Header("Pole strength charging")]
     public float chargeRate = 10f;
     public float maxCharge = 10f;
@@ -47,6 +55,10 @@ public class FishingPoleController : MonoBehaviour
     {
         this.lineRender = this.gameObject.GetComponent<LineRenderer>();
         this.lineRender.enabled = false;
+
+        this.hamburguer.SetActive(true);
+        this.phone.SetActive(false);
+        this.money.SetActive(false);
     }
 
     // Update is called once per frame
@@ -107,6 +119,39 @@ public class FishingPoleController : MonoBehaviour
         _tutorial.OnCastComplete();
     }
 
+    public void ChangeBait(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            float v = context.ReadValue<float>();
+            this.baitPos += ((int)v);
+
+
+            if (this.baitPos == -1) this.baitPos = 2;
+            else if (this.baitPos == 3) this.baitPos = 0;
+
+            
+
+            switch (this.baitPos)
+            {
+                case 0:
+                    this.hamburguer.SetActive(true);
+                    this.phone.SetActive(false);
+                    this.money.SetActive(false);
+                    break;
+                case 1:
+                    this.hamburguer.SetActive(false);
+                    this.phone.SetActive(true);
+                    this.money.SetActive(false);
+                    break;
+                case 2:
+                    this.hamburguer.SetActive(false);
+                    this.phone.SetActive(false);
+                    this.money.SetActive(true);
+                    break;
+            }
+        }
+    }
 
     public void CastPole(InputAction.CallbackContext context)
     {
@@ -128,7 +173,7 @@ public class FishingPoleController : MonoBehaviour
         {
             PlayerController.Instance.UnlockPlayer();
             _fishingLine.CurrentBait = null;
-            Object.Destroy(this.currentBait);
+            GameObject.Destroy(this.currentBait);
         }
     }
 
@@ -152,6 +197,8 @@ public class FishingPoleController : MonoBehaviour
             Vector3 newPoint = this.baitInitialPosition.transform.position + time * velocity;
             newPoint.y = this.baitInitialPosition.transform.position.y + velocity.y * time + (Physics.gravity.y / 2f * time * time);
             this.lineRender.SetPosition(i, newPoint);
+
+            // print(i + " "+ newPoint);
         }
     }
 }
