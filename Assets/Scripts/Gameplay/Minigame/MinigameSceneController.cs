@@ -60,7 +60,9 @@ public struct HumanPrefabInfo
 
 public enum HumanType
 {
-    GoofyOrange
+    GoofyOrange,
+    Purple,
+    Red
 }
 
 [System.Serializable]

@@ -7,6 +7,8 @@ TagManager:
   - AngleBar
   - ForceBar
   - GameManager
+  - Human
+  - CastedBait
   layers:
   - Default
   - TransparentFX

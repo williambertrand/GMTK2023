@@ -49,6 +49,7 @@ public class HumanSpawner : MonoBehaviour
         Human h = Instantiate(toSpawn, position, Quaternion.identity);
 
         h.preferredBait = Bait.GetRandomBait();
+        h.transform.parent = this.transform;
         
         // TODO: TESTING - remove
         // h.preferredBait = BaitType.HAMBURGER;

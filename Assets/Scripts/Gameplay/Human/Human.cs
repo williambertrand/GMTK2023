@@ -12,13 +12,16 @@ public class Human : MonoBehaviour
         NORMAL,
         ON_THE_LINE,
         OFF_THE_LINE,
-        CAUGHT
+        CAUGHT,
+        SAWBAIT
     }
 
     public BubbleThought bubbleThought;
     public float speed;
     private Vector3 _targetPos;
 
+    public HumanType type = HumanType.GoofyOrange;
+    public SongLevel songLevel = SongLevel.Easy;
     private HumanState currentState;
     public BaitType preferredBait;
 
@@ -60,6 +63,9 @@ public class Human : MonoBehaviour
             case HumanState.ON_THE_LINE:
                 HandleOnTheLine();
                 break;
+            case HumanState.SAWBAIT:
+                FollowBait();
+                break;
             case HumanState.OFF_THE_LINE:
                 // TODO: run off screen
                 break;
@@ -67,6 +73,29 @@ public class Human : MonoBehaviour
                 break;
         }
     }
+    private void FollowBait()
+    {
+        if (shouldFollowBait)
+        {
+            var target = GameObject.FindGameObjectWithTag("CastedBait");
+            this._targetPos = new Vector3(target.transform.position.x, 2.5f, target.transform.position.z);
+            this.HandleNormalMovement();
+
+            if (Vector3.Distance(_targetPos, this.transform.position) < 0.1f)
+            {
+                this.OnHooked();
+                Destroy(target);
+            }
+        }
+    }
+
+    public void BaitPulledBack()
+    {
+        if (this.currentState == HumanState.SAWBAIT)
+            this.currentState = HumanState.NORMAL;
+    }
+
+    private bool shouldFollowBait = false;
 
     private void HandleNormalMovement()
     {
@@ -114,6 +143,17 @@ public class Human : MonoBehaviour
             OnCaught();
         }
     }
+
+    public void ResumeWalking()
+    {
+        this.shouldFollowBait = true;
+    }
+
+    public void TriggerFollowBait()
+    {
+        this._anim.SetTrigger("seeBait");
+        this.currentState = HumanState.SAWBAIT;
+    }
     private void HandleOnTheLine()
     {
         // Get current "perent" the player has reeled in the Human
@@ -156,13 +196,13 @@ public class Human : MonoBehaviour
         {
             yield return null;
         }
-        GamePlayManager gamePlayManager =  GameObject.FindGameObjectWithTag("GameManager").GetComponent<GamePlayManager>();
+        GamePlayManager gamePlayManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GamePlayManager>();
         //TODO: Add human type, difficult 
         MinigameSceneController minigameSceneController = SceneManager.GetSceneByName("RhythmMinigame").GetRootGameObjects()[0].GetComponent<MinigameSceneController>();
-        minigameSceneController.Init(HumanType.GoofyOrange, SongLevel.Normal, preferredBait);
+        minigameSceneController.Init(this.type, this.songLevel, preferredBait);
 
         //TODO: cache this
-       gamePlayManager.GoToMinigame();
+        gamePlayManager.GoToMinigame();
 
         // TODO: Handle coming back and updating the state, but for now just destroy
         Destroy(gameObject);

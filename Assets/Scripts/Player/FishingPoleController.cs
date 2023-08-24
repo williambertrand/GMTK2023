@@ -7,7 +7,9 @@ using UnityEngine.UI;
 
 public class FishingPoleController : MonoBehaviour
 {
-    public GameObject baitPrefab;
+    public GameObject baitPrefabHamburguer;
+    public GameObject baitPrefabPhone;
+    public GameObject baitPrefabMoney;
     public Transform baitInitialPosition;
     private GameObject currentBait;
 
@@ -101,7 +103,22 @@ public class FishingPoleController : MonoBehaviour
 
     private void CastBait()
     {
-        this.currentBait = GameObject.Instantiate(this.baitPrefab);
+        switch (this.baitPos)
+        {
+            case 0:
+
+                this.currentBait = GameObject.Instantiate(this.baitPrefabHamburguer);
+                break;
+            case 1:
+
+                this.currentBait = GameObject.Instantiate(this.baitPrefabPhone);
+                break;
+            case 2:
+
+                this.currentBait = GameObject.Instantiate(this.baitPrefabMoney);
+                break;
+        }
+
         AudioManager.Instance.PlayOneShot(AudioEvent.PLAYER_CAST);
         _fishingLine.CurrentBait = currentBait;
         this.currentBait.transform.position = this.baitInitialPosition.position;
@@ -130,7 +147,7 @@ public class FishingPoleController : MonoBehaviour
             if (this.baitPos == -1) this.baitPos = 2;
             else if (this.baitPos == 3) this.baitPos = 0;
 
-            
+
 
             switch (this.baitPos)
             {
@@ -174,6 +191,11 @@ public class FishingPoleController : MonoBehaviour
             PlayerController.Instance.UnlockPlayer();
             _fishingLine.CurrentBait = null;
             GameObject.Destroy(this.currentBait);
+            var humans = GameObject.FindGameObjectsWithTag("Human");
+
+            foreach(var h in humans){
+                h.GetComponent<Human>().BaitPulledBack();
+            }
         }
     }
 

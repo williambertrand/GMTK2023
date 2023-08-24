@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private float _velocity;
     #endregion
 
+
     private bool IsGrounded() => _characterController.isGrounded;
 
     delegate void OnPlayerReel();

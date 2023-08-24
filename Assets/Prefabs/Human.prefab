@@ -411,7 +411,7 @@ GameObject:
   - component: {fileID: 7828198812160960726}
   m_Layer: 0
   m_Name: Human
-  m_TagString: Untagged
+  m_TagString: Human
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -448,6 +448,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bubbleThought: {fileID: 2325202577068505670}
   speed: 5
+  songLevel: 1
   preferredBait: 0
   RequiredCaptureCount: 10
   _speedOnHook: 7
@@ -565,6 +566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 220efa36e449a4149bd5475566926528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  human: {fileID: 3873359999000798387}
   _rotXFactor: 0.5
 --- !u!95 &3873360000249286834
 Animator:
